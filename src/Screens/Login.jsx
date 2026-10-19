@@ -1,3 +1,4 @@
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -52,12 +53,7 @@ export const Login = ({ navigation }) => {
             {/* EMAIL ADDRESS */}
             <Text style={styles.label}>EMAIL ADDRESS</Text>
             <View style={styles.inputContainer}>
-              <Icon
-                name="mail"
-                size={18}
-                color="#64748b"
-                style={styles.inputIcon}
-              />
+              <Mail size={18} color="#64748b" style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 placeholder="Enter email"
@@ -72,12 +68,7 @@ export const Login = ({ navigation }) => {
             {/* PASSWORD */}
             <Text style={styles.label}>PASSWORD</Text>
             <View style={styles.inputContainer}>
-              <Icon
-                name="lock"
-                size={18}
-                color="#64748b"
-                style={styles.inputIcon}
-              />
+              <Lock size={18} color="#64748b" style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 placeholder="Enter password"
@@ -90,11 +81,11 @@ export const Login = ({ navigation }) => {
                 onPress={() => setShowPassword(!showPassword)}
                 style={styles.eyeIcon}
               >
-                <Icon
-                  name={showPassword ? 'eye-off' : 'eye'}
-                  size={18}
-                  color="white"
-                />
+                {showPassword ? (
+                  <EyeOff size={18} color="#64748b" />
+                ) : (
+                  <Eye size={18} color="#64748b" />
+                )}
               </TouchableOpacity>
             </View>
 

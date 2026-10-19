@@ -5,12 +5,15 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Modal,
+  Pressable,
 } from 'react-native';
 import React, { useState } from 'react';
 import { Header } from '../../Components/Header';
 import { BarChart } from 'react-native-gifted-charts';
 import Icon from 'react-native-vector-icons/Feather';
 import { HealthScore } from '../../Components/Analytics/HealthScore';
+import { Award, Check, ChevronDown } from 'lucide-react-native';
 
 export const Analytics = () => {
   const weeklyData = [
@@ -74,6 +77,11 @@ export const Analytics = () => {
   ];
   const [selectedType, setSelectedType] = useState('Both');
   const [selectedPeriod, setSelectedPeriod] = useState('Weekly');
+  // dropdown
+  const [dropDownvisible, setDropDownVisible] = useState(false);
+  const filterOptions = ['Both', 'Income', 'Expense'];
+  const [periodDropDown, setPeriodDropDown] = useState(false);
+  const periods = ['Weekly', 'yearly'];
   const sourceData = selectedPeriod === 'Weekly' ? weeklyData : yearlyData;
 
   const chartData = sourceData.reduce((result, item, index, array) => {
@@ -116,7 +124,7 @@ export const Analytics = () => {
         <View>
           <Text style={styles.healthLabel}>Health Score</Text>
           <Text style={styles.healthScore}>
-            85/100 <Icon name={'award'} size={20} />{' '}
+            85/100 <Award color={'green'} size={20} />{' '}
           </Text>
           <Text style={styles.subtitle}>
             Excellent Saving ratio this month!
@@ -131,50 +139,119 @@ export const Analytics = () => {
 
       <View style={styles.card}>
         <Text style={styles.title}>Weekly/Yearly Breakdown</Text>
-        <View style={styles.filterRow}>
-          {['Both', 'Income', 'Expense'].map(type => (
+        <View style={styles.DropDownContainer}>
+          {/* dropdown  */}
+          <View style={styles.filterRow}>
             <TouchableOpacity
-              key={type}
-              onPress={() => setSelectedType(type)}
-              style={[
-                styles.filterButton,
-                selectedType === type &&
-                  (type === 'Expense'
-                    ? styles.activeExpense
-                    : styles.activeFilter),
-              ]}
+              style={styles.filterDropdown}
+              onPress={() => setDropDownVisible(true)}
+              activeOpacity={0.8}
             >
-              <Text
-                style={[
-                  styles.filterText,
-                  selectedType === type && styles.activeFilterText,
-                ]}
-              >
-                {type}
-              </Text>
+              <Text style={styles.filterDropdownText}>{selectedType}</Text>
+
+              <ChevronDown size={20} color="#10D6A0" />
             </TouchableOpacity>
-          ))}
-        </View>
-        <View style={styles.filterRow}>
-          {['Weekly', 'Yearly'].map(period => (
+          </View>
+          {/* dropdown modal  */}
+          <Modal
+            visible={dropDownvisible}
+            transparent
+            animationType="fade"
+            onRequestClose={() => setDropDownVisible(false)}
+          >
+            <Pressable
+              style={styles.modalOverlay}
+              onPress={() => setDropDownVisible(false)}
+            >
+              <View style={styles.dropdownMenu}>
+                {filterOptions.map(type => (
+                  <TouchableOpacity
+                    key={type}
+                    style={[
+                      styles.dropdownItem,
+                      selectedType === type && styles.dropdownItemActive,
+                    ]}
+                    onPress={() => {
+                      setSelectedType(type);
+                      setDropDownVisible(false);
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.dropdownItemText,
+                        selectedType === type && styles.dropdownItemTextActive,
+                      ]}
+                    >
+                      {type}
+                    </Text>
+
+                    {selectedType === type && (
+                      <Check size={18} color="#10D6A0" />
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </Pressable>
+          </Modal>
+          {/* periods dropdown  */}
+          {/* Period dropdown */}
+          <View style={styles.filterRow}>
             <TouchableOpacity
-              key={period}
-              onPress={() => setSelectedPeriod(period)}
-              style={[
-                styles.filterButton,
-                selectedPeriod === period && styles.activeFilter,
-              ]}
+              style={styles.filterDropdown}
+              onPress={() => setPeriodDropDown(true)}
+              activeOpacity={0.8}
             >
-              <Text
-                style={[
-                  styles.filterText,
-                  selectedPeriod === period && styles.activeFilterText,
-                ]}
-              >
-                {period}
-              </Text>
+              <Text style={styles.filterDropdownText}>{selectedPeriod}</Text>
+
+              <ChevronDown size={20} color="#10D6A0" />
             </TouchableOpacity>
-          ))}
+          </View>
+
+          {/* Dropdown modal */}
+          <Modal
+            visible={periodDropDown}
+            animationType="fade"
+            transparent
+            onRequestClose={() => setPeriodDropDown(false)}
+          >
+            <View style={styles.modalOverlay}>
+              {/* Close when the background is pressed */}
+              <Pressable
+                style={StyleSheet.absoluteFillObject}
+                onPress={() => setPeriodDropDown(false)}
+              />
+
+              <View style={styles.dropdownMenu}>
+                {periods.map(period => (
+                  <TouchableOpacity
+                    key={period}
+                    style={[
+                      styles.dropdownItem,
+                      selectedPeriod === period && styles.dropdownItemActive,
+                    ]}
+                    onPress={() => {
+                      setSelectedPeriod(period);
+                      setPeriodDropDown(false);
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.dropdownItemText,
+                        selectedPeriod === period &&
+                          styles.dropdownItemTextActive,
+                      ]}
+                    >
+                      {period}
+                    </Text>
+
+                    {selectedPeriod === period && (
+                      <Check size={18} color="#10D6A0" />
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </Modal>
         </View>
         {/* chart  */}
 
@@ -215,12 +292,16 @@ export const Analytics = () => {
         <View style={styles.legend}>
           <View style={styles.legendItem}>
             <View style={styles.incomeDot} />
-            <Text style={styles.legendText}>Income</Text>
+            <TouchableOpacity onPress={() => setSelectedType('Income')}>
+              <Text style={styles.legendText}>Income</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.legendItem}>
             <View style={styles.expenseDot} />
-            <Text style={styles.legendText}>Expense</Text>
+            <TouchableOpacity onPress={() => setSelectedType('Expense')}>
+              <Text style={styles.legendText}>Expense</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -394,6 +475,78 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '100%',
     backgroundColor: '#10D6A0',
+  },
+  // dropdown
+  DropDownContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 12,
+    marginVertical: 10,
+  },
+  filterRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginVertical: 12,
+  },
+
+  filterDropdown: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    minWidth: 140,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#0F172A',
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    borderRadius: 12,
+  },
+
+  filterDropdownText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '600',
+    marginRight: 16,
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  dropdownMenu: {
+    width: 220,
+    padding: 8,
+    backgroundColor: '#0F172A',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    elevation: 8,
+  },
+
+  dropdownItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+  },
+
+  dropdownItemActive: {
+    backgroundColor: '#1E293B',
+  },
+
+  dropdownItemText: {
+    color: '#CBD5E1',
+    fontSize: 15,
+  },
+
+  dropdownItemTextActive: {
+    color: '#10D6A0',
+    fontWeight: '600',
   },
   filterRow: {
     flexDirection: 'row',

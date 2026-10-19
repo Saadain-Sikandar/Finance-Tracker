@@ -13,6 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import { Header } from '../../Components/Header';
 import { RecentActivityCard } from '../../Components/Home/RecentActivityCard';
+import { ArrowDownLeft, CreditCard, Search } from 'lucide-react-native';
 
 const initialTransactions = [
   {
@@ -29,7 +30,7 @@ const initialTransactions = [
     type: 'Income',
     date: '2026-10-01',
     expense: '+$4850.00',
-    iconname: 'arrow-down-right',
+    iconname:<ArrowDownLeft size={20} color={'#ffff'} />
   },
   {
     id: '3',
@@ -37,7 +38,7 @@ const initialTransactions = [
     type: 'Food',
     date: '2026-10-07',
     expense: '-$84.50',
-    iconname: 'credit-card',
+    iconname:  <CreditCard size={20} color={'#ffff'} />,
   },
   {
     id: '4',
@@ -45,7 +46,7 @@ const initialTransactions = [
     type: 'Bills',
     date: '2026-10-05',
     expense: '-$142.10',
-    iconname: 'credit-card',
+    iconname:  <CreditCard size={20} color={'#ffff'} />,
   },
   {
     id: '5',
@@ -53,7 +54,7 @@ const initialTransactions = [
     type: 'Income',
     date: '2026-10-04',
     expense: '+$950.00',
-    iconname: 'arrow-down-right',
+    iconname:<ArrowDownLeft size={20} color={'#ffff'} />
   },
   {
     id: '6',
@@ -61,7 +62,7 @@ const initialTransactions = [
     type: 'Transport',
     date: '2026-10-03',
     expense: '-$24.80',
-    iconname: 'credit-card',
+    iconname: <CreditCard size={20} color={'white'} />
   },
 ];
 
@@ -116,7 +117,7 @@ export const History = () => {
 
         {/* Search */}
         <View style={styles.searchContainer}>
-          <Icon name="search" size={18} color="#FFFFFF" />
+          <Search size={18} color="#FFFFFF" />
 
           <TextInput
             style={styles.searchInput}
@@ -171,7 +172,7 @@ export const History = () => {
               return (
                 <RecentActivityCard
                   key={item.id}
-                  iconname={item.iconname}
+                  icon={item.iconname}
                   title={item.title}
                   type={item.type}
                   date={item.date}

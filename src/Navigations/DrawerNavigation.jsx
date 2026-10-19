@@ -18,6 +18,7 @@ import {
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { House, Info, Phone } from 'lucide-react-native';
 
 const Drawer = createDrawerNavigator();
 
@@ -87,7 +88,7 @@ export const DrawerNavigation = () => {
         headerShown: false,
         drawerStyle: {
           backgroundColor: '#0F172A',
-          width: 250,
+          width: 260,
         },
         drawerActiveTintColor: '#10D6A0',
         drawerInactiveTintColor: '#94A3B8',
@@ -97,7 +98,7 @@ export const DrawerNavigation = () => {
       <Drawer.Screen
         options={{
           drawerIcon: ({ color }) => (
-            <Icon name={'home'} size={20} color={color} />
+            <House  size={20} color={color} />
           ),
         }}
         name="Home"
@@ -107,7 +108,7 @@ export const DrawerNavigation = () => {
       <Drawer.Screen
         options={{
           drawerIcon: ({ color }) => (
-            <Icon name={'info'} size={20} color={color} />
+            <Info size={20} color={color} />
           ),
         }}
         name="About"
@@ -117,7 +118,7 @@ export const DrawerNavigation = () => {
       <Drawer.Screen
         options={{
           drawerIcon: ({ color }) => (
-            <Icon name={'phone'} size={20} color={color} />
+            <Phone size={20} color={color} />
           ),
         }}
         name="Contact"

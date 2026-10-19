@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
+import { Menu } from 'lucide-react-native';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
 
 export const Header = () => {
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const getgreetings = () => {
     const hour = new Date().getHours();
@@ -31,11 +32,11 @@ export const Header = () => {
     }
   };
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <View style={styles.headerContent}>
         <View>
           <TouchableOpacity onPress={openDrawer}>
-            <Icon name={'menu'} size={30} color={'#ffff'} />
+            <Menu size={30} color={'#ffff'} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Login } from '../Screens/Login';
 import { Signup } from '../Screens/Signup';
 import { DrawerNavigation } from './DrawerNavigation';
+import {EditProfile} from '../Screens/EditProfile'
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,11 @@ export const StackNavigation = () => {
       <Stack.Screen
         name="Signup"
         component={Signup}
+        options={{ headerShown: false }}
+      />
+        <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
         options={{ headerShown: false }}
       />
 

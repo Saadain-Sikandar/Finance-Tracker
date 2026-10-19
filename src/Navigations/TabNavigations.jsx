@@ -10,6 +10,7 @@ import { Analytics } from '../Screens/Tabs/Analytics';
 import { Profile } from '../Screens/Tabs/Profile';
 import { AddExpense } from '../Screens/Tabs/AddExpense';
 import { useNavigation } from '@react-navigation/native';
+import { ChartPie, House, ListClock, Plus, User} from 'lucide-react-native'
 
 const Tab = createBottomTabNavigator();
 const CenterButton = ({ onPress }) => (
@@ -18,7 +19,7 @@ const CenterButton = ({ onPress }) => (
     activeOpacity={0.8}
     onPress={onPress}
   >
-    <Icon name="plus" size={30} color="#020617" />
+    <Plus name="plus" size={30} color="#020617" />
   </TouchableOpacity>
 );
 export const TabNavigation = () => {
@@ -55,7 +56,7 @@ export const TabNavigation = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon name="home" size={19} color={color} />
+            <House color={color} size={19}  />
           ),
         }}
       />
@@ -64,7 +65,7 @@ export const TabNavigation = () => {
         component={History}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon name="repeat" size={19} color={color} />
+            <ListClock size={19} color={color} />
           ),
         }}
       />
@@ -85,7 +86,7 @@ export const TabNavigation = () => {
         component={Analytics}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon name="pie-chart" size={19} color={color} />
+            <ChartPie size={19} color={color} />
           ),
         }}
       />
@@ -94,7 +95,7 @@ export const TabNavigation = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon name="user" size={19} color={color} />
+            <User size={19} color={color} />
           ),
         }}
       />

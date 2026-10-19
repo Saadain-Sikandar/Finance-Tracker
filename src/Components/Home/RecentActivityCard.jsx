@@ -1,9 +1,10 @@
+import { Trash } from 'lucide-react-native';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 export const RecentActivityCard = ({
-  iconname = 'credit-card',
+  icon,
   title,
   type,
   date,
@@ -39,7 +40,7 @@ export const RecentActivityCard = ({
     <View style={styles.card}>
       {/* Icon */}
       <View style={[styles.iconContainer, { backgroundColor: getTypeColor() }]}>
-        <Icon name={iconname} size={21} color="#FFFFFF" />
+        {icon}
       </View>
 
       {/* Transaction details */}
@@ -64,7 +65,7 @@ export const RecentActivityCard = ({
           onPress={onDelete}
           activeOpacity={0.7}
         >
-          <Icon name="trash-2" size={15} color="#64748B" />
+          <Trash size={15} color="#64748B" />
         </TouchableOpacity>
       )}
     </View>

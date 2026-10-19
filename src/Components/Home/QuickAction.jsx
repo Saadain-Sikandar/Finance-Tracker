@@ -2,21 +2,14 @@ import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
-export const QuickActionButton = ({
-  iconName,
-  label,
-  onPress,
-  iconSize = 20,
-}) => {
+export const QuickActionButton = ({ icon, label, onPress }) => {
   return (
     <TouchableOpacity
       style={styles.cardContainer}
       onPress={onPress}
       activeOpacity={0.7}
     >
-      <View style={styles.iconCircle}>
-        {<Icon name={iconName} size={iconSize} color="#10b981" />}
-      </View>
+      <View style={styles.iconCircle}>{icon}</View>
       <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
   );

@@ -12,6 +12,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import { Header } from '../../Components/Header';
 import Icon from 'react-native-vector-icons/Feather';
 import Toast from 'react-native-toast-message';
+import { ChevronDown, Edit } from 'lucide-react-native';
+import { green } from 'react-native-reanimated/lib/typescript/Colors';
 
 export const Profile = ({ navigation }) => {
   const [currency, setCurrency] = useState({
@@ -56,6 +58,11 @@ export const Profile = ({ navigation }) => {
             <Text style={styles.name}>Alex Morgan</Text>
             <Text style={styles.email}>alex.morgan@pockettrack.io</Text>
           </View>
+
+          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')} >
+            <Edit color={'green'} size={20}  />
+          </TouchableOpacity>
+
         </View>
 
         {/* Settings */}
@@ -74,7 +81,7 @@ export const Profile = ({ navigation }) => {
               <Text style={styles.currencyValue}>
                 {currency.code} ({currency.symbol})
               </Text>
-              <Icon name="chevron-down" size={14} color="#CBD5E1" />
+              <ChevronDown size={14} color="#CBD5E1" />
             </TouchableOpacity>
           </View>
 
@@ -204,6 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     padding: 16,
     flexDirection: 'row',
+    justifyContent:'space-between',
     alignItems: 'center',
     marginBottom: 16,
     minHeight: 82,

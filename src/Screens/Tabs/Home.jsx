@@ -13,6 +13,17 @@ import { QuickActionButton } from '../../Components/Home/QuickAction';
 import { BudgetCard } from '../../Components/Home/BudgetCard';
 import { RecentActivityCard } from '../../Components/Home/RecentActivityCard';
 import { Header } from '../../Components/Header';
+import {
+  ArrowDownLeft,
+  ArrowUpRight,
+  ChartPie,
+  CreditCard,
+  EllipsisVertical,
+  MoveUpRight,
+  ShoppingBag,
+  ShoppingCart,
+  Wallet,
+} from 'lucide-react-native';
 
 export const Home = ({ navigation }) => {
   return (
@@ -30,10 +41,22 @@ export const Home = ({ navigation }) => {
         </View>
         {/* quick buttons  */}
         <View style={styles.quickbtns}>
-          <QuickActionButton iconName={'arrow-up-right'} label={'Send'} />
-          <QuickActionButton iconName={'arrow-down-right'} label={'Receive'} />
-          <QuickActionButton iconName={'pie-chart'} label={'Analytics'} />
-          <QuickActionButton iconName={'more-vertical'} label={'More'} />
+          <QuickActionButton
+            icon={<ArrowUpRight size={20} color="#10b981" />}
+            label={'Sent'}
+          />
+          <QuickActionButton
+            icon={<ArrowDownLeft size={20} color="#10b981" />}
+            label={'Receive'}
+          />
+          <QuickActionButton
+            icon={<ChartPie size={20} color="#10b981" />}
+            label={'Analytics'}
+          />
+          <QuickActionButton
+            icon={<EllipsisVertical size={20} color="#10b981" />}
+            label={'More'}
+          />
         </View>
         {/* monthly budget card  */}
         <View style={{ marginTop: 10 }}>
@@ -65,7 +88,7 @@ export const Home = ({ navigation }) => {
           </View>
           <View>
             <RecentActivityCard
-              iconname="shopping-bag"
+              icon={<CreditCard size={21} color={'#ffff'} />}
               title="Apple Store"
               type="Shopping"
               date="2026-10-08"
@@ -73,7 +96,7 @@ export const Home = ({ navigation }) => {
             />
 
             <RecentActivityCard
-              iconname="corner-down-right"
+              icon={<Wallet size={21} color={'#ffff'} />}
               title="TechCorp Salary"
               type="Income"
               date="2026-10-01"
@@ -81,7 +104,7 @@ export const Home = ({ navigation }) => {
             />
 
             <RecentActivityCard
-              iconname="shopping-cart"
+              icon={<ShoppingCart size={21} color={'#ffff'} />}
               title="Organic Grocery Market"
               type="Food"
               date="2026-10-07"
@@ -89,7 +112,7 @@ export const Home = ({ navigation }) => {
             />
 
             <RecentActivityCard
-              iconname="credit-card"
+              icon={<CreditCard size={21} color={'#ffff'} />}
               title="Electric & Gas Utility"
               type="Bills"
               date="2026-10-05"
