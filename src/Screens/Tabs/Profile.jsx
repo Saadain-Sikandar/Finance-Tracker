@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,13 +7,16 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  Image,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { Header } from '../../Components/Header';
 import Icon from 'react-native-vector-icons/Feather';
 import Toast from 'react-native-toast-message';
-import { ChevronDown, Edit } from 'lucide-react-native';
+import { ChevronDown, Edit, User } from 'lucide-react-native';
 import { green } from 'react-native-reanimated/lib/typescript/Colors';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Profile = ({ navigation }) => {
   const [currency, setCurrency] = useState({
@@ -21,6 +24,7 @@ export const Profile = ({ navigation }) => {
     symbol: '$',
     name: 'US Dollar',
   });
+  const [image, setImage] = useState(null);
 
   const [securityEnabled, setSecurityEnabled] = useState(true);
   const [currencyVisible, setCurrencyVisible] = useState(false);
@@ -41,6 +45,30 @@ export const Profile = ({ navigation }) => {
     );
   };
 
+  // image showing
+
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+
+      const loadProfile = async () => {
+        try {
+          const image = await AsyncStorage.getItem('profileImagePath');
+          if (isActive) {
+            setImage(image);
+          }
+        } catch (error) {
+          console.log('Could not load profile:', error);
+        }
+      };
+      loadProfile();
+
+      return () => {
+        isActive = false;
+      };
+    },[]),
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.screen}>
@@ -51,7 +79,17 @@ export const Profile = ({ navigation }) => {
         {/* Profile information */}
         <View style={styles.profileCard}>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>AM</Text>
+          {image ? (
+          <Image
+            source={{ uri: image }}
+            style={styles.profileImage}
+            resizeMode='cover'
+          />
+        ) : (
+          <View style={styles.placeholder}>
+            <User  size={30} color="#94A3B8" />
+          </View>
+        )}
           </View>
 
           <View style={styles.profileInfo}>
@@ -59,10 +97,9 @@ export const Profile = ({ navigation }) => {
             <Text style={styles.email}>alex.morgan@pockettrack.io</Text>
           </View>
 
-          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')} >
-            <Edit color={'green'} size={20}  />
+          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+            <Edit color={'green'} size={20} />
           </TouchableOpacity>
-
         </View>
 
         {/* Settings */}
@@ -211,7 +248,7 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     padding: 16,
     flexDirection: 'row',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
     minHeight: 82,
@@ -223,7 +260,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#10D6A0',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow:'hidden',
     marginRight: 12,
+  },
+  profileImage:{
+    width:'100%',
+    height:'100%',
   },
   avatarText: {
     color: '#020617',
