@@ -2,7 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Menu, User } from 'lucide-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform,
+  StatusBar,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -65,38 +73,33 @@ export const Header = () => {
     }
   };
   // image load
- useFocusEffect(
-
-  useCallback(() => {
-    let isActive = true
-    const loadImage = async () => {
-  
-      try {
-        const savedImage = await AsyncStorage.getItem('profileImagePath');
-        if (isActive) {
-          setImage(savedImage);
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      const loadImage = async () => {
+        try {
+          const savedImage = await AsyncStorage.getItem('profileImagePath');
+          if (isActive) {
+            setImage(savedImage);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    loadImage()
-    return () => {
-      isActive=false
-    }
-  },[])
-
- )
+      };
+      loadImage();
+      return () => {
+        isActive = false;
+      };
+    }, []),
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContent}>
-        <View>
-          <TouchableOpacity onPress={openDrawer}>
-            <Menu size={30} color={'#ffff'} />
-          </TouchableOpacity>
-        </View>
-        {/* image  */}
+        <TouchableOpacity style={styles.menuButton} onPress={openDrawer}>
+          <Menu size={26} color="#FFFFFF" />
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={openProfile}>
           <View style={styles.avatar}>
             {image ? (
@@ -107,15 +110,17 @@ export const Header = () => {
               />
             ) : (
               <View style={styles.placeholder}>
-                <User size={30} color="#94A3B8" />
+                <User size={26} color="#94A3B8" />
               </View>
             )}
           </View>
         </TouchableOpacity>
 
-        <View>
+        <View style={styles.greetingContainer}>
           <Text style={styles.welcome}>{getgreetings()}</Text>
-          <Text style={styles.name}>Alex Morgan</Text>
+          <Text style={styles.name} numberOfLines={1}>
+            Alex Morgan
+          </Text>
         </View>
       </View>
     </View>
@@ -125,50 +130,66 @@ export const Header = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#020617',
+
+    // Android: leave space for the status bar.
+    // iOS: preserve your existing safe-area layout.
+    paddingTop:
+      Platform.OS === 'android' ? (StatusBar.currentHeight || 0) + 8 : 8,
+
     paddingHorizontal: 16,
     paddingBottom: 12,
-    borderBottomWidth: 2,
+
+    borderBottomWidth: 1,
     borderBottomColor: '#1E293B',
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#10D6A0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    marginRight: 12,
-  },
-  profileImage: {
-    width: '100%',
-    height: '100%',
   },
 
   headerContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
   },
 
-  logo: {
-    color: '#FFFFFF',
-    backgroundColor: '#10B981',
+  menuButton: {
+    width: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  avatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#10D6A0',
+    alignItems: 'center',
+    justifyContent: 'center',
     overflow: 'hidden',
-    borderRadius: 50,
-    padding: 10,
-    fontWeight: 'bold',
+  },
+
+  profileImage: {
+    width: '100%',
+    height: '100%',
+  },
+
+  greetingContainer: {
+    flex: 1,
+    minWidth: 0,
   },
 
   welcome: {
     color: '#94A3B8',
-    fontSize: 13,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontWeight: '600',
   },
 
   name: {
     color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 15,
+    fontWeight: '700',
+    fontSize: 14,
+  },
+
+  placeholder: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

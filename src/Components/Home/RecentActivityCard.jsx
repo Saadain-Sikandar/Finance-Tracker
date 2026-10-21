@@ -1,7 +1,6 @@
 import { Trash } from 'lucide-react-native';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 
 export const RecentActivityCard = ({
   icon,
